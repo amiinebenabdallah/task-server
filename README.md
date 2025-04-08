@@ -1,99 +1,163 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Task App Server
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A NestJS-based backend server for the Task App application.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Prerequisites
 
-## Description
+- Docker and Docker Compose
+- Node.js (for local development)
+- Make (optional, for using Makefile commands)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Project Structure
 
-## Project setup
-
-```bash
-$ npm install
+```
+.
+├── src/                # Source code
+├── test/              # Test files
+├── Dockerfile         # Docker configuration for the API
+├── docker-compose.yml # Docker Compose configuration
+├── Makefile          # Make commands for common operations
+└── README.md         # Project documentation
 ```
 
-## Compile and run the project
+## Getting Started
+
+### Using Docker (Recommended)
+
+1. Build the Docker images:
+   ```bash
+   make build
+   # or
+   docker-compose build
+   ```
+
+2. Start the services:
+   ```bash
+   make up
+   # or
+   docker-compose up -d
+   ```
+
+3. Access the services:
+   - API: http://localhost:3000
+   - pgAdmin: http://localhost:5050
+   - PostgreSQL: localhost:5432
+
+### Local Development
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+   ```bash
+   npm run start:dev
+   ```
+
+## Available Services
+
+### API Service
+- Port: 3000
+- Environment variables:
+  - NODE_ENV=production
+  - DATABASE_HOST=postgres
+  - DATABASE_PORT=5432
+  - DATABASE_USER=postgres
+  - DATABASE_PASSWORD=postgres
+  - DATABASE_NAME=taskapp
+
+### PostgreSQL Database
+- Port: 5432
+- Credentials:
+  - Username: postgres
+  - Password: postgres
+  - Database: taskapp
+
+### pgAdmin
+- Port: 5050
+- Login credentials:
+  - Email: admin@admin.com
+  - Password: admin
+
+## Make Commands
+
+The project includes a Makefile with common commands:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+make build      # Build Docker images
+make up         # Start all services
+make down       # Stop all services
+make logs       # View all logs
+make clean      # Clean up Docker resources
+make restart    # Restart all services
+make ps         # List running containers
+make dev        # Start development environment
+make logs-api   # View API logs
+make logs-db    # View database logs
+make logs-pgadmin # View pgAdmin logs
+make shell-api  # Enter API container shell
+make shell-db   # Enter database container shell
+make help       # Show all available commands
 ```
 
-## Run tests
+## Database Connection
+
+To connect to the database using pgAdmin:
+
+1. Access pgAdmin at http://localhost:5050
+2. Login with:
+   - Email: admin@admin.com
+   - Password: admin
+3. Add a new server:
+   - Host: postgres
+   - Port: 5432
+   - Database: taskapp
+   - Username: postgres
+   - Password: postgres
+
+## Development
+
+### Running Tests
 
 ```bash
-# unit tests
-$ npm run test
+# Unit tests
+npm run test
 
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e
 
-# test coverage
-$ npm run test:cov
+# Test coverage
+npm run test:cov
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Code Style
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+# Lint code
+npm run lint
+
+# Format code
+npm run format
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Troubleshooting
 
-## Resources
+### Common Issues
 
-Check out a few resources that may come in handy when working with NestJS:
+1. **Docker daemon not running**
+   ```bash
+   sudo systemctl start docker
+   ```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+2. **Port conflicts**
+   - Ensure ports 3000, 5432, and 5050 are not in use
+   - Check with: `sudo lsof -i :<port>`
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+3. **Database connection issues**
+   - Verify PostgreSQL container is running: `make ps`
+   - Check database logs: `make logs-db`
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License.

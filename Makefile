@@ -1,4 +1,4 @@
-.PHONY: build up down logs clean restart ps
+.PHONY: build up down logs clean restart ps init
 
 # Build the Docker images
 build:
@@ -7,6 +7,13 @@ build:
 # Start all services in detached mode
 up:
 	docker-compose up -d
+
+# First-time setup (run only once)
+init:
+	docker-compose up -d
+	@echo "Waiting for database to be ready..."
+	@sleep 5
+	npx prisma migrate dev --name init
 
 # Stop all services
 down:
@@ -55,6 +62,7 @@ help:
 	@echo "Available commands:"
 	@echo "  make build      - Build Docker images"
 	@echo "  make up         - Start all services"
+	@echo "  make init       - First-time setup (run only once)"
 	@echo "  make down       - Stop all services"
 	@echo "  make logs       - View all logs"
 	@echo "  make clean      - Clean up Docker resources"

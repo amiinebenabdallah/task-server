@@ -1,163 +1,137 @@
-# Task App Server
+# Task Management Application
 
-A NestJS-based backend server for the Task App application.
+A NestJS-based task management application with user authentication and task CRUD operations.
 
-## Prerequisites
+## Features
 
-- Docker and Docker Compose
-- Node.js (for local development)
-- Make (optional, for using Makefile commands)
+- User authentication (JWT)
+- Task management (CRUD operations)
+- PostgreSQL database
+- Docker containerization
+- Prisma ORM
+- RESTful API
 
 ## Project Structure
 
 ```
-.
-├── src/                # Source code
-├── test/              # Test files
-├── Dockerfile         # Docker configuration for the API
-├── docker-compose.yml # Docker Compose configuration
-├── Makefile          # Make commands for common operations
-└── README.md         # Project documentation
+src/
+├── auth/           # Authentication module
+├── database/       # Database configuration
+├── decorators/     # Custom decorators
+├── middleware/     # Custom middleware
+├── prisma/         # Prisma client and service
+├── task/           # Task module
+├── user/           # User module
+├── app.controller.ts
+├── app.module.ts
+├── app.service.ts
+└── main.ts
+```
+
+## Prerequisites
+
+- Docker and Docker Compose
+- Node.js 
+- npm
+
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@postgres:5432/taskapp?schema=public"
+JWT_SECRET="your-secret-key"
 ```
 
 ## Getting Started
 
-### Using Docker (Recommended)
-
-1. Build the Docker images:
-   ```bash
-   make build
-   # or
-   docker-compose build
-   ```
-
-2. Start the services:
-   ```bash
-   make up
-   # or
-   docker-compose up -d
-   ```
-
-3. Access the services:
-   - API: http://localhost:3000
-   - pgAdmin: http://localhost:5050
-   - PostgreSQL: localhost:5432
-
-### Local Development
-
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-2. Start the development server:
-   ```bash
-   npm run start:dev
-   ```
-
-## Available Services
-
-### API Service
-- Port: 3000
-- Environment variables:
-  - NODE_ENV=production
-  - DATABASE_HOST=postgres
-  - DATABASE_PORT=5432
-  - DATABASE_USER=postgres
-  - DATABASE_PASSWORD=postgres
-  - DATABASE_NAME=taskapp
-
-### PostgreSQL Database
-- Port: 5432
-- Credentials:
-  - Username: postgres
-  - Password: postgres
-  - Database: taskapp
-
-### pgAdmin
-- Port: 5050
-- Login credentials:
-  - Email: admin@admin.com
-  - Password: admin
-
-## Make Commands
-
-The project includes a Makefile with common commands:
-
+1. Clone the repository:
 ```bash
-make build      # Build Docker images
-make up         # Start all services
-make down       # Stop all services
-make logs       # View all logs
-make clean      # Clean up Docker resources
-make restart    # Restart all services
-make ps         # List running containers
-make dev        # Start development environment
-make logs-api   # View API logs
-make logs-db    # View database logs
-make logs-pgadmin # View pgAdmin logs
-make shell-api  # Enter API container shell
-make shell-db   # Enter database container shell
-make help       # Show all available commands
+git clone <https://github.com/amiinebenabdallah/task-server/>
+cd task-app/server
 ```
 
-## Database Connection
+2. First-time setup:
+```bash
+make init
+```
+This will:
+- Build and start the Docker containers
+- Run the initial database migration
+- Set up the database schema
 
-To connect to the database using pgAdmin:
+3. Start the application:
+```bash
+make up
+```
 
-1. Access pgAdmin at http://localhost:5050
-2. Login with:
-   - Email: admin@admin.com
-   - Password: admin
-3. Add a new server:
-   - Host: postgres
-   - Port: 5432
-   - Database: taskapp
-   - Username: postgres
-   - Password: postgres
+4. Stop the application:
+```bash
+make down
+```
+
+## Available Commands
+
+- `make build` - Build Docker images
+- `make up` - Start all services
+- `make down` - Stop all services
+- `make init` - First-time setup (run only once)
+- `make logs` - View all logs
+- `make clean` - Clean up Docker resources
+- `make restart` - Restart all services
+- `make ps` - List running containers
+- `make logs-api` - View API logs
+- `make logs-db` - View database logs
+- `make logs-pgadmin` - View pgAdmin logs
+
+## API Endpoints
+
+### Authentication
+- `POST /auth/login` - User login
+- `POST /auth/register` - User registration
+
+### Tasks
+- `GET /tasks` - Get all tasks
+- `GET /tasks/:id` - Get task by ID
+- `POST /tasks` - Create new task
+- `PUT /tasks/:id` - Update task
+- `DELETE /tasks/:id` - Delete task
+
+### Users
+- `GET /users/profile` - Get users 
+
+## Database
+
+The application uses PostgreSQL with the following schema:
+
+### Users Table
+- id (primary key)
+- email (unique)
+- password
+- tasks (relation)
+
+### Tasks Table
+- id (primary key)
+- title
+- description
+- status
+- due_date
+- priority
+- user_id (foreign key)
+- created_at
+- updated_at
 
 ## Development
 
-### Running Tests
+ Access services:
+- API: http://localhost:3000
+- PgAdmin: http://localhost:5050
+  - Email: admin@admin.com
+  - Password: admin
+  - Database connection:
+    - Host: postgres
+    - Port: 5432
+    - Database: taskapp
+    - Username: postgres
+    - Password: postgres
 
-```bash
-# Unit tests
-npm run test
-
-# e2e tests
-npm run test:e2e
-
-# Test coverage
-npm run test:cov
-```
-
-### Code Style
-
-```bash
-# Lint code
-npm run lint
-
-# Format code
-npm run format
-```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Docker daemon not running**
-   ```bash
-   sudo systemctl start docker
-   ```
-
-2. **Port conflicts**
-   - Ensure ports 3000, 5432, and 5050 are not in use
-   - Check with: `sudo lsof -i :<port>`
-
-3. **Database connection issues**
-   - Verify PostgreSQL container is running: `make ps`
-   - Check database logs: `make logs-db`
-
-## License
-
-This project is licensed under the MIT License.

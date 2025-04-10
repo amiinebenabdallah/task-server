@@ -5,20 +5,20 @@
     
     "builds": [
         {
-            "src": "dist/main.js",
+            "src": "dist/main.ts",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "dist/main.js"
+            "dest": "dist/main.ts"
         }
     ],
     "env": {
         "DATABASE_URL": "postgresql://neondb_owner:npg_6FgOtcyA7Hva@ep-weathered-wave-a2idttu0-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require",
-        "JWT_SECRET": "your-secret-key",
-        "FRONTEND_URL": "https://your-frontend-url.vercel.app",
+        "JWT_SECRET": "TaskAppSecret",
+        "FRONTEND_URL": "https://task-client-mu.vercel.app",
         "NODE_ENV": "production"
     }
 }

@@ -1,17 +1,24 @@
 {
     "version": 2,
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
     
     "builds": [
         {
-            "src": "src/main.ts",
+            "src": "dist/main.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/src/main.ts",
-            "methods": ["GET", "POST", "PUT", "DELETE"]
+            "dest": "dist/main.js"
         }
-    ]
+    ],
+    "env": {
+        "DATABASE_URL": "postgresql://neondb_owner:npg_6FgOtcyA7Hva@ep-weathered-wave-a2idttu0-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require",
+        "JWT_SECRET": "your-secret-key",
+        "FRONTEND_URL": "https://your-frontend-url.vercel.app",
+        "NODE_ENV": "production"
+    }
 }

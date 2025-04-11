@@ -5,14 +5,22 @@
     
     "builds": [
         {
-            "src": "dist/main.ts",
+            "src": "dist/main.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
+            "src": "/api/(.*)",
+            "dest": "dist/main.js"
+        },
+        {
+            "src": "/health",
+            "dest": "dist/main.js"
+        },
+        {
             "src": "/(.*)",
-            "dest": "dist/main.ts"
+            "dest": "dist/main.js"
         }
     ],
     "env": {

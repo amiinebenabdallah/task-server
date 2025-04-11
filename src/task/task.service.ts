@@ -103,7 +103,7 @@ export class TaskService {
       orderBy,
     });
 
-    return tasks.map((task) => this.mapToTaskResponse(task));
+    return tasks.map((task: any) => this.mapToTaskResponse(task));
   }
 
   async findOne(id: number, userId: number): Promise<TaskResponse> {

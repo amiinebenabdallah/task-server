@@ -1,24 +1,22 @@
 {
     "version": 2,
-    "buildCommand": "npm run build",
-    "outputDirectory": "dist",
-    
     "builds": [
-        {
-            "src": "dist/main.js",
-            "use": "@vercel/node"
-        }
+      {
+        "src": "api/index.ts",
+        "use": "@vercel/node"
+      }
     ],
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "dist/main.js"
-        }
+      {
+        "src": "/(.*)",
+        "dest": "api/index.ts"
+      }
     ],
     "env": {
-        "DATABASE_URL": "postgresql://neondb_owner:npg_6FgOtcyA7Hva@ep-weathered-wave-a2idttu0-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require",
-        "JWT_SECRET": "TaskAppSecret",
-        "FRONTEND_URL": "https://task-client-mu.vercel.app",
-        "NODE_ENV": "production"
+      "DATABASE_URL": "postgresql://neondb_owner:npg_6FgOtcyA7Hva@ep-weathered-wave-a2idttu0-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require",
+      "JWT_SECRET": "TaskAppSecret",
+      "FRONTEND_URL": "https://task-client-mu.vercel.app",
+      "NODE_ENV": "production"
     }
-}
+  }
+  

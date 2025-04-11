@@ -11,6 +11,7 @@
         "dest": "api/index.ts"
       }
     ],
+    "outputDirectory": ".",
     "env": {
       "DATABASE_URL": "postgresql://neondb_owner:npg_6FgOtcyA7Hva@ep-weathered-wave-a2idttu0-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require",
       "JWT_SECRET": "TaskAppSecret",

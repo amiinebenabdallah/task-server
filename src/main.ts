@@ -4,7 +4,11 @@ import { Request, Response } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
+  
+  // Set global prefix for all routes
+  app.setGlobalPrefix('api', {
+    exclude: ['health']
+  });
   
   // Enable CORS with proper configuration
   app.enableCors({

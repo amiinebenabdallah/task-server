@@ -12,6 +12,12 @@
         "dest": "api/index.js"
       }
     ],
+    "functions": {
+        "api/index.js": {
+        "maxDuration": 30             
+        }
+      },
+      
     "outputDirectory": ".",
     "env": {
       "DATABASE_URL": "postgresql://neondb_owner:npg_6FgOtcyA7Hva@ep-weathered-wave-a2idttu0-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require",

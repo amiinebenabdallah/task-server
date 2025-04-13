@@ -1,27 +1,51 @@
 # Task Management Application
 
-A NestJS-based task management application with user authentication and task CRUD operations.
+A full-stack task management application built with NestJS, PostgreSQL, and Docker. This application provides a robust API for managing tasks with user authentication and authorization.
 
 ## Features
 
-- User authentication (JWT)
-- Task management (CRUD operations)
-- PostgreSQL database
-- Docker containerization
-- Prisma ORM
-- RESTful API
+- **User Authentication & Authorization**
+  - JWT-based authentication
+  - Role-based access control
+  - Secure password hashing
+  - Refresh token support
+
+- **Task Management**
+  - Create, read, update, and delete tasks
+  - Task categorization and prioritization
+  - Due date tracking
+  - Task status management
+
+- **Database & ORM**
+  - PostgreSQL database
+  - Prisma ORM for type-safe database operations
+  - Database migrations
+  - Connection pooling
+
+- **Development & Deployment**
+  - Docker containerization
+  - Docker Compose for local development
+  - Environment-based configuration
+  - Automated database setup
 
 ## Project Structure
 
 ```
 src/
 ├── auth/           # Authentication module
-├── database/       # Database configuration
-├── decorators/     # Custom decorators
-├── middleware/     # Custom middleware
-├── prisma/         # Prisma client and service
-├── task/           # Task module
-├── user/           # User module
+│   ├── dto/       # Data transfer objects
+│   ├── strategies/ # Authentication strategies
+│   └── guards/    # Authentication guards
+├── prisma/        # Database configuration
+│   ├── migrations # Database migrations
+│   └── schema.prisma # Database schema
+├── task/          # Task module
+│   ├── dto/       # Task DTOs
+│   └── entities/  # Task entities
+├── user/          # User module
+│   ├── dto/       # User DTOs
+│   └── entities/  # User entities
+├── middleware/    # Custom middleware
 ├── app.controller.ts
 ├── app.module.ts
 ├── app.service.ts
@@ -31,23 +55,15 @@ src/
 ## Prerequisites
 
 - Docker and Docker Compose
-- Node.js 
-- npm
+- Node.js (v16 or higher)
+- npm (v7 or higher)
 
-## Environment Variables
-
-Create a `.env` file in the root directory with the following variables:
-
-```env
-DATABASE_URL="postgresql://postgres:postgres@postgres:5432/taskapp?schema=public"
-JWT_SECRET="your-secret-key"
-```
 
 ## Getting Started
 
 1. Clone the repository:
 ```bash
-git clone <https://github.com/amiinebenabdallah/task-server/>
+git clone <https://github.com/amiinebenabdallah/task-server.git>
 cd task-app/server
 ```
 
@@ -59,6 +75,7 @@ This will:
 - Build and start the Docker containers
 - Run the initial database migration
 - Set up the database schema
+- Create necessary database tables
 
 3. Start the application:
 ```bash
@@ -83,55 +100,14 @@ make down
 - `make logs-api` - View API logs
 - `make logs-db` - View database logs
 - `make logs-pgadmin` - View pgAdmin logs
+- `make shell-api` - Enter API container shell
+- `make shell-db` - Enter database container shell
 
-## API Endpoints
 
-### Authentication
-- `POST /auth/login` - User login
-- `POST /auth/register` - User registration
+## Security Considerations
 
-### Tasks
-- `GET /tasks` - Get all tasks
-- `GET /tasks/:id` - Get task by ID
-- `POST /tasks` - Create new task
-- `PUT /tasks/:id` - Update task
-- `DELETE /tasks/:id` - Delete task
-
-### Users
-- `GET /users/profile` - Get users 
-
-## Database
-
-The application uses PostgreSQL with the following schema:
-
-### Users Table
-- id (primary key)
-- email (unique)
-- password
-- tasks (relation)
-
-### Tasks Table
-- id (primary key)
-- title
-- description
-- status
-- due_date
-- priority
-- user_id (foreign key)
-- created_at
-- updated_at
-
-## Development
-
- Access services:
-- API: http://localhost:3000
-- PgAdmin: http://localhost:5050
-  - Email: admin@admin.com
-  - Password: admin
-  - Database connection:
-    - Host: postgres
-    - Port: 5432
-    - Database: taskapp
-    - Username: postgres
-    - Password: postgres
-
+- All passwords are hashed using bcrypt
+- JWT tokens are used for authentication
+- API endpoints are protected by authentication middleware
+- Database credentials are managed through environment variables
+- CORS is configured for the frontend URL

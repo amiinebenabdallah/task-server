@@ -1,4 +1,3 @@
-
 services:
   postgres:
     image: postgres:16-alpine
@@ -30,6 +29,25 @@ services:
       - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - JWT_SECRET=TaskAppSecret
+      - JWT_REFRESH_TOKEN_SECRET=TaskAppRefreshSecret
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/taskapp
+      - FRONTEND_URL=http://localhost:3001
     depends_on:
       postgres:
         condition: service_healthy
